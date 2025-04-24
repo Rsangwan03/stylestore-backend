@@ -27,10 +27,10 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: auth-artifacts
-        path: $GITHUB_WORKSPACE/store-backend/auth-service
+        path: $GITHUB_WORKSPACE/auth-service/*
       
     - name: upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: order-artifacts
-        path: $GITHUB_WORKSPACE/store-backend/orders-service
+        path: $GITHUB_WORKSPACE/orders-service
