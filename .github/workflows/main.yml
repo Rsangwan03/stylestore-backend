@@ -16,16 +16,16 @@ jobs:
     - name: current directory
       run: |
         echo $GITHUB_WORKSPACE/store-backend/auth-service
-        ls -la $GITHUB_WORKSPACE/store-backend/auth-service
+       
 
     - name: upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: auth-artifacts
-        path: $GITHUB_WORKSPACE/auth-service
+        path: $GITHUB_WORKSPACE/store-backend/auth-service
       
     - name: upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: order-artifacts
-        path: $GITHUB_WORKSPACE/orders-service
+        path: $GITHUB_WORKSPACE/store-backend/orders-service
