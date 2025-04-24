@@ -57,6 +57,7 @@ jobs:
         python3 -m venv venv
         source venv/bin/activate
         pip install --no-cache-dir -r requirements.txt
+        export DATABASE_URL="postgresql+asyncpg://postgres:Adminuser123@stylestoreserver.postgres.database.azure.com:5432/auth_db"
         nohup uvicorn main:app --host 0.0.0.0 --port 8000 --reload &
         EOF
 
