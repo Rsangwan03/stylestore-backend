@@ -47,5 +47,5 @@ jobs:
     
     - name: ssh to vm
       run: |
-        sshpass -p "${{secrets.PASSWORD}}" ssh -o StrictHostKeyChecking=no adminuser@${{secrets.HOST}} "mkdir -p /admin/auth"
-        sshpass -p "${{secrets.PASSWORD}}" scp -o StrictHostKeyChecking=no -r ./auth-artifacts/* adminuser@${{secrets.HOST}}:/admin/auth"
+        sshpass -p "${{secrets.PASSWORD}}" ssh -o StrictHostKeyChecking=no adminuser@${{secrets.HOST}} "mkdir -p /home/adminuser/auth"
+        sshpass -p "${{secrets.PASSWORD}}" scp -o StrictHostKeyChecking=no -r ./auth-artifacts/* adminuser@${{secrets.HOST}}:/home/adminuser/auth"
