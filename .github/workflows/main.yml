@@ -16,7 +16,7 @@ jobs:
     - name: current directory
       run: |
         echo $GITHUB_WORKSPACE/store-backend/auth-service
-        echo ls -la $GITHUB_WORKSPACE/store-backend/auth-service
+        ls -la $GITHUB_WORKSPACE/store-backend/auth-service
 
     - name: upload artifacts
       uses: actions/upload-artifact@v4
