@@ -46,6 +46,6 @@ jobs:
         path: ./auth-artifacts
     
     - name: ssh to vm
-      run:
+      run: |
         sshpass -p "${{secrets.PASSWORD}}" scp -o StrictHostKeyChecking=no adminuser@${{secrets.HOST}} "mkdir -p /admin/auth"
         sshpass -p "${{secrets.PASSWORD}}" scp -o StrictHostKeyChecking=no -r ./auth-artifacts* adminuser@${{secrets.HOST}}:/admin/auth"
