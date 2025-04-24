@@ -20,7 +20,7 @@ jobs:
     - name: Show current directory contents
       run: |
        echo "Current directory: $GITHUB_WORKSPACE"
-       ls -al $GITHUB_WORKSPACE
+       ls -al $GITHUB_WORKSPACE/auth-service
        
 
     - name: upload artifacts
