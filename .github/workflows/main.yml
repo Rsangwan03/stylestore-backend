@@ -1,0 +1,14 @@
+name: back end auth pipeline
+
+on:
+ push:
+   branches:
+   - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: check out 
+      uses: actions/checkout@v4
