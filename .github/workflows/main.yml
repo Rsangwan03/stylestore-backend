@@ -16,6 +16,11 @@ jobs:
     - name: current directory
       run: |
         echo $GITHUB_WORKSPACE/
+    
+    - name: Show current directory contents
+      run: |
+       echo "Current directory: $GITHUB_WORKSPACE"
+       ls -al $GITHUB_WORKSPACE
        
 
     - name: upload artifacts
