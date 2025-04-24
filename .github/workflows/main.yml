@@ -14,8 +14,10 @@ jobs:
       uses: actions/checkout@v4
     
     - name: current directory
-      run: echo $GITHUB_WORKSPACE
-      
+      run: |
+        echo $GITHUB_WORKSPACE/store-backend/auth-service
+        echo ls -la $GITHUB_WORKSPACE/store-backend/auth-service
+
     - name: upload artifacts
       uses: actions/upload-artifact@v4
       with:
