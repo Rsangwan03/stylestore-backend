@@ -1,0 +1,58 @@
+trigger:
+- main
+
+pool: styleagent
+
+variables:
+  artifactName: 'auth'
+  artifactPath: '$(Pipeline.Workspace)/auth'
+  remotePath: '/tmp'
+
+steps:
+# Step 1: Checkout code and build (if needed)
+- checkout: self
+
+- script: |
+    echo "Build your backend here (optional)"
+  displayName: 'Build Backend'
+
+# Step 2: Copy files to staging and publish as artifact
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)/auth-service'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/backend'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)/backend'
+    artifact: '$(artifactName)'
+    publishLocation: 'pipeline'
+
+# Step 3: Download the artifact on the agent
+- task: DownloadPipelineArtifact@2
+  inputs:
+    buildType: 'current'
+    artifactName: '$(artifactName)'
+    targetPath: '$(artifactPath)'
+
+# Step 4: Copy artifact to backend VM via scp with sshpass
+- script: |
+    echo "Deploying artifact to backend VM via SSH..."
+    sshpass -p "$(VM_PASSWORD)" scp -o StrictHostKeyChecking=no -r $(artifactPath) adminuser@4.217.185.201:$(remotePath)
+  displayName: 'Deploy Artifact via SSH'
+  env:
+    VM_PASSWORD: $(VM_PASSWORD)  # Set this securely in the pipeline UI as a secret variable
+
+- task: SSH@0
+  inputs:
+    sshEndpoint: 'auth-ssh'
+    runOptions: 'inline'
+    inline: |
+      cd $(remotePath)/$(artifactName)
+      python3 -m venv venv
+      source venv/bin/activate
+      pip install --no-cache-dir -r requirements.txt
+      nohup venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000 --reload &
+  displayName: 'Set up and run backend on VM'
+
