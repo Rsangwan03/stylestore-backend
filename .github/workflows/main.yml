@@ -49,9 +49,9 @@ jobs:
       run: |
         # SSH into the frontend VM (jump host)
          sshpass -p "${{ secrets.PASSWORD }}" ssh \
-        -o StrictHostKeyChecking=no \
-        -o ProxyCommand="sshpass -p '${{ secrets.PASSWORD }}' ssh -o StrictHostKeyChecking=no -W %h:%p adminuser@${{ secrets.FRONTEND_VM_PUBLIC_IP }}" \
-        adminuser@${{ secrets.AUTH_HOST }} "mkdir -p /home/adminuser/auth"
+         -o StrictHostKeyChecking=no \
+         -o ProxyCommand="sshpass -p '${{ secrets.PASSWORD }}' ssh -o StrictHostKeyChecking=no -W %h:%p adminuser@${{ secrets.FRONTEND_VM_PUBLIC_IP }}" \
+         adminuser@${{ secrets.AUTH_HOST }} "mkdir -p /home/adminuser/auth"
       
     - name: Transfer order artifacts to backend VM (via frontend VM)
       run: |
