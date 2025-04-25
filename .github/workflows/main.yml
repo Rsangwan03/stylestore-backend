@@ -42,6 +42,7 @@ jobs:
         
     - name: Add frontend VM to known hosts
       run: |
+        mkdir -p ~/.ssh
         ssh-keyscan -H ${{ secrets.FRONTEND_VM_PUBLIC_IP }} >> ~/.ssh/known_hosts
 
     - name: SSH to frontend VM (jump host)
@@ -81,6 +82,7 @@ jobs:
     
     - name: Add frontend VM to known hosts
       run: |
+        mkdir -p ~/.ssh
         ssh-keyscan -H ${{ secrets.FRONTEND_VM_PUBLIC_IP }} >> ~/.ssh/known_hosts
 
     - name: SSH to frontend VM (jump host)
