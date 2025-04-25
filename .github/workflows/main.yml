@@ -44,22 +44,21 @@ jobs:
       run: |
         mkdir -p ~/.ssh
         ssh-keyscan -H ${{ secrets.FRONTEND_VM_PUBLIC_IP }} >> ~/.ssh/known_hosts
-        ssh-keyscan -H ${{ secrets.AUTH_HOST }} >> ~/.ssh/known_hosts
-
+     
     - name: SSH to frontend VM (jump host)
       run: |
         # SSH into the frontend VM (jump host)
          sshpass -p "${{ secrets.PASSWORD }}" ssh \
          -o StrictHostKeyChecking=no \
          -o ProxyCommand="sshpass -p '${{ secrets.PASSWORD }}' ssh -o StrictHostKeyChecking=no -W %h:%p adminuser@${{ secrets.FRONTEND_VM_PUBLIC_IP }}" \
-         adminuser@${{ secrets.AUTH_HOST }} "mkdir -p /home/adminuser/auth"
+         adminuser@${{ secrets.ORDER_HOST }} "mkdir -p /home/adminuser/auth"
       
     - name: Transfer order artifacts to backend VM (via frontend VM)
       run: |
         # Use SCP to transfer the artifacts to the backend VM via the frontend VM (jump host)
         sshpass -p "${{ secrets.PASSWORD }}" scp \
         -o StrictHostKeyChecking=no \
-        -o ProxyCommand="sshpass -p '${{ secrets.PASSWORD }}' ssh -o StrictHostKeyChecking=no -W %h:%p adminuser@${{ secrets.FRONTEND_VM_PUBLIC_IP }}" -r ./auth-artifacts/* adminuser@${{ secrets.AUTH_HOST }}:/home/adminuser/auth
+        -o ProxyCommand="sshpass -p '${{ secrets.PASSWORD }}' ssh -o StrictHostKeyChecking=no -W %h:%p adminuser@${{ secrets.FRONTEND_VM_PUBLIC_IP }}" -r ./auth-artifacts/* adminuser@${{ secrets.ORDER_HOST }}:/home/adminuser/auth
     
     - name: Deploy to backend VM
       run: |
@@ -67,7 +66,7 @@ jobs:
         sshpass -p "${{ secrets.PASSWORD }}" ssh \
          -o StrictHostKeyChecking=no \
          -o ProxyCommand="sshpass -p '${{ secrets.PASSWORD }}' ssh -o StrictHostKeyChecking=no -W %h:%p adminuser@${{ secrets.FRONTEND_VM_PUBLIC_IP }}" \
-         adminuser@${{ secrets.AUTH_HOST }} << 'EOF'
+         adminuser@${{ secrets.ORDER_HOST }} << 'EOF'
         cd /home/adminuser/orders
         sudo apt update
         sudo apt install python3 python3-pip -y
