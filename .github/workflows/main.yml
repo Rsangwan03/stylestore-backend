@@ -16,7 +16,7 @@ jobs:
     - name: Show current directory contents
       run: |
         echo "Current directory: $GITHUB_WORKSPACE"
-        ls -al $GITHUB_WORKSPACE/auth-service
+        ls -al $GITHUB_WORKSPACE/orders-service
      
 
     - name: Upload order artifacts
